@@ -79,7 +79,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { email, firstName, lastName, password } = req.body;
+        const { email, firstName, lastName, password ,role} = req.body;
 
         if (!email) {
             return res.status(400).send(
@@ -111,7 +111,8 @@ const register = async (req, res) => {
             email,
             password,
             firstName,
-            lastName
+            lastName,
+            role
         });
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(user.password, salt);

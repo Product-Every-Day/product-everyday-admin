@@ -9,8 +9,7 @@ const auth = require('../../middleware/auth');
 // fetch all addresses api for a user
 router.post('/',
     auth(),
-    uploadPhoto.array("images", 10),
-    productImgResize,
+    uploadPhoto.array("images", 10),productImgResize,
     async (req, res) => {
         uploadController.upload(req, res)
     });

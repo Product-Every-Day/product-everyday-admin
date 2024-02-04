@@ -51,6 +51,7 @@ if (process.env.NODE_ENV === 'production') {
   logger.info("Dev Env")
 }
 app.use((req, res, next) => {
+ 
   logger.info(req.protocol + '://' + req.get('host') + req.originalUrl)
   next()
 })

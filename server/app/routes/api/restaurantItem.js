@@ -41,7 +41,7 @@ router.get('/:id', checkValidMongoDbId(), async (req, res) => {
   restaurantItemController.read(req, res);
 });
 
-router.put('/:id', auth(), role.checkRole(ROLES.Admin), checkValidMongoDbId(), async (req, res) => {
+router.put('/:id', auth(), role.checkRole(ROLES.Admin) , checkValidMongoDbId(),async (req, res) => {
   restaurantItemController.update(req, res);
 });
 
