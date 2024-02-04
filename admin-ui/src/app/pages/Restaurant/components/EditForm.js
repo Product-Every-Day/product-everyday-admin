@@ -29,7 +29,7 @@ const EditForm = ({ restaurant, setloading, fetchAllRestaurants }) => {
     const [deleteImgUrl, setdeleteImgUrl] = useState(null)
     const [cusine, setcusine] = useState(null)
     const [category, setcategory] = useState(null)
-
+   
     const handleFileChange = (event) => {
         setSelectedFiles(event.target.files);
     };
@@ -46,7 +46,6 @@ const EditForm = ({ restaurant, setloading, fetchAllRestaurants }) => {
     const handleUpdateRestaurant = async () => {
         setloading(true);
         const deletedimage = await handleDeleteImage()
-        console.log(deletedimage)
         const image_data = await handleImageUpload()
         let payload = restaurantPayload
         if (selectedFiles && !image_data) {
@@ -79,7 +78,6 @@ const EditForm = ({ restaurant, setloading, fetchAllRestaurants }) => {
             if (data.success === true) {
                 return data?.data
             } else {
-                console.log(data)
                 return null
             }
         }
@@ -93,7 +91,6 @@ const EditForm = ({ restaurant, setloading, fetchAllRestaurants }) => {
             if (data.success === true) {
                 return true
             } else {
-                console.log(data)
                 return false
             }
         }

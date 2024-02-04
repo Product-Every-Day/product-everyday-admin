@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useEffect} from 'react'
 import {
     Button,
     FormControlLabel,
@@ -16,7 +16,11 @@ import { BACKEND_URL } from '../../../core/constants';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
-
+// adding adhar_number
+// adding banking details(ifsccode and account number)
+// fassai_registration_number
+//contact number of restaurants
+//pancardnumber
 const createPayload = {
     "restaurantId": "",
     "user": "",
@@ -24,7 +28,13 @@ const createPayload = {
     "geometry": {},
     "image": "https://res.cloudinary.com/dw3qovmta/image/upload/v1700294913/pearl-mary-oyster-bar-interior-by-bfurlong-1200x900px_uavaba.jpg",
     "description": "",
+    "aadharNumber":"",    
     "address": "",
+    "panNumber":"",
+    "accountNumber":"",
+    "ifscCode":"",
+    "fssaiRegistrationNumber":"",
+    "contactNumber":"",
     "isActive": true,
     "isVegOnly": false,
     "categories": [],
@@ -38,11 +48,14 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
     const user = getUserData()
     const [cusine, setcusine] = useState(null)
     const [category, setcategory] = useState(null)
-
+    const [aadharNumber,setaadharNumber]=useState(null)
+    const [contactNumber,setcontactNumber]=useState(null)           // adding contacts number
+    const [accountNumber ,setaccountNumber]=useState(null)  // adding Bank account number
+    const [buttonVisibilty,setbuttonVisibilty]=useState(true)  // for disabled the button
     const handleFileChange = (event) => {
-        setSelectedFiles(event.target.files);
+        setSelectedFiles(event.target.files[0]);
     };
-
+   
     const onChangeForm = (e) => {
         if (e.target.name === 'isActive' || e.target.name === 'isVegOnly') {
             setrestaurantPayload({ ...restaurantPayload, [e.target.name]: e.target.checked })
@@ -51,11 +64,35 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
             let stringlist = e.target.value
             setrestaurantPayload({ ...restaurantPayload, [e.target.name]: stringlist.split(',') })
         }
+        else if(e.target.name ==='aadharNumber'){
+            const aadharNumber = e.target.value.replace(/[^0-9]/g, '');          //validating the adhar_no only should be integer
+            if(aadharNumber.length<=12){      
+                setaadharNumber(aadharNumber)                                    // validating adhar length should not be greater than 12
+              setrestaurantPayload({ ...restaurantPayload, [e.target.name]: aadharNumber })
+            }
+        }
+        else if(e.target.name === 'contactNumber'){
+            const contactNumber=e.target.value.replace(/[^0-9]/g, '');          //validating the contact_no only should be interger
+            if(contactNumber.length<=10){                                        // validating contactnumber length should not be greater than 10
+                setcontactNumber(contactNumber)
+                setrestaurantPayload({ ...restaurantPayload, [e.target.name]: contactNumber })
+            }
+        }
+        else if(e.target.name==='accountNumber'){
+            const accountNumber=e.target.value.replace(/[^0-9]/g, '');
+            setaccountNumber(accountNumber);
+            setrestaurantPayload({ ...restaurantPayload, [e.target.name]: accountNumber })
+        }
         else {
-            setrestaurantPayload({ ...restaurantPayload, [e.target.name]: e.target.value })
+         setrestaurantPayload({ ...restaurantPayload, [e.target.name]: e.target.value })
         }
     }
-
+    const handleAddRestaurant=()=>{                                     //validating on mandatory input field for button visibilty
+        if(restaurantPayload.name.length == 0 ||restaurantPayload.aadharNumber.length<12 || restaurantPayload.contactNumber.length<10 ||restaurantPayload.accountNumber.length== 0||restaurantPayload.ifscCode.length==0){  
+            return true;
+        }
+        return false;
+    }
     const handleCreateRestaurant = async () => {
         setloading(true);
         const image_data = await handleImageUpload()
@@ -76,7 +113,6 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
             longitude: ''
         }
         navigator.geolocation.getCurrentPosition((position) => {
-            // console.log(position.coords)
             coordinate.latitude = position.coords.latitude
             coordinate.longitude = position.coords.longitude
             restaurantPayload.geometry = coordinate
@@ -96,26 +132,26 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
     const handleImageUpload = async () => {
         if (selectedFiles) {
             const formData = new FormData();
-            for (let i = 0; i < selectedFiles.length; i++) {
-                formData.append('images', selectedFiles[i]);
-            }
+            formData.append('images', selectedFiles);
+            console.log(formData,"   formdata");
             const url = BACKEND_URL + '/upload/'
             const data = await uploadImage(url, formData);
             if (data.success === true) {
                 return data?.data
             } else {
-                console.log(data)
                 return null
             }
         }
     }
-
+    useEffect(()=>{                   //for button visibilty (add restaurant button)
+    setbuttonVisibilty(handleAddRestaurant())
+    },[restaurantPayload.name,restaurantPayload.aadharNumber,restaurantPayload.contactNumber,restaurantPayload.accountNumber,restaurantPayload.ifscCode])
     return (
         <Fragment>
             <Grid container spacing={2} sx={{ backgroundColor: 'white', }}>
                 <Grid item xs={12}>
                     <TextField InputProps={{ sx: { borderRadius: 0 } }}
-                        label="Restaurant Name"
+                        label="Restaurant Name*"
                         size="small"
                         name='name'
                         fullWidth
@@ -123,11 +159,7 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    {/* <ReactQuill theme="snow"
-                        // value={value}
-                        name='description'
-                        label='Description'
-                        onChange={(e) => onChangeForm(e)} /> */}
+                   
                     <TextField InputProps={{ sx: { borderRadius: 0 } }}
                         label="Restaurant Description"
                         size="small"
@@ -135,6 +167,61 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
                         fullWidth
                         multiline
                         rows={4}
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+                {/* adding pancard_number */}
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="Pan Number"
+                        size="small"
+                        name='panNumber'
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+                {/* adhar number */}
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="Aadhar Number*"
+                        size="small"
+                        value={aadharNumber}
+                        name='aadharNumber'
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+              {/* Bank account Number */}
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="Bank Account Number*"
+                        size="small"
+                        value={accountNumber}
+                        name='accountNumber'
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="Bank IFSC Code*"
+                        size="small"
+                        name='ifscCode'
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+                
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="FSSAI Registration Number"
+                        size="small"
+                        name='fssaiRegistrationNumber'
+                        onChange={(e) => onChangeForm(e)}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField InputProps={{ sx: { borderRadius: 0 } }}
+                        label="Contact Number*"
+                        size="small"
+                        value={contactNumber}
+                        name='contactNumber'
                         onChange={(e) => onChangeForm(e)}
                     />
                 </Grid>
@@ -217,7 +304,7 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
                     </Stack>
                 </Grid>
                 <Grid item xs={12}>
-                    <input type="file" className='upload-list-inline' onChange={handleFileChange} />
+                    <input type="file" className='upload-list-inline'  onChange={handleFileChange} />
                 </Grid>
                 <Grid item xs={12}>
                     <FormControlLabel
@@ -252,17 +339,18 @@ const CreateForm = ({ setloading, fetchAllRestaurants }) => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button
+                   <Button
                         variant="contained"
                         size='small'
                         color="primary"
                         className='bg-blue border-0'
                         onClick={() => handleCreateRestaurant()}
-                        disabled={restaurantPayload.name.length == 0}
+                       disabled={buttonVisibilty}
                         startIcon={<SaveIcon />}
                     >
                         Add Restaurant
                     </Button>
+
                 </Grid>
 
             </Grid>
