@@ -150,7 +150,6 @@ const update = async (req, res) => {
     try {
         const restaurantId = req.params.id;
         const update = req.body;
-        console.log(req.body);
         const query = { _id: restaurantId };
         const restaurantDoc = await Restaurant.findOne(query)
         

@@ -122,11 +122,9 @@ const listRestaurantItem = async (req, res) => {
 
         let restaurantItems = null;
         const restaurantItemsCount = (await RestaurantItem.find({ restaurantId: restaurantId }));
-        console.log(restaurantItemsCount,"    items")
         const count = restaurantItemsCount.length;
         const size = count > limit ? page - 1 : 0;
         const currentPage = count > limit ? Number(page) : 1;
-        console.log(count ,size,limit);
         // paginate query
         const paginateQuery = [
             // { $sort: sortOrder },
@@ -138,7 +136,6 @@ const listRestaurantItem = async (req, res) => {
         ];
 
       restaurantItems = await RestaurantItem.aggregate(paginateQuery);
-        console.log(restaurantItems)
         res.status(200).send(
             successResponse(
                 200,
