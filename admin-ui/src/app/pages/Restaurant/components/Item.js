@@ -52,9 +52,9 @@ const Item = ({ restaurantId, setloading }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedRestaurantItem, setselectedRestaurantItem] = useState(createPayload)
     const [editflag, seteditflag] = useState(false)
-    const [price,setprice]=useState("")    //   to set the price of the item only numeric in input field
-    const [editdialogOpen,seteditdialogOpen]=useState(false);
- 
+    const [price, setprice] = useState("")    //   to set the price of the item only numeric in input field
+    const [editdialogOpen, seteditdialogOpen] = useState(false);
+
 
 
     useEffect(() => {
@@ -96,7 +96,7 @@ const Item = ({ restaurantId, setloading }) => {
             setrestauranItemtPayload({ ...restauranItemtPayload, [e.target.name]: e.target.checked })
         }
         else if (e.target.name === 'price') {
-            const priceOfitem= e.target.value.replace(/[^0-9]/g, '');
+            const priceOfitem = e.target.value.replace(/[^0-9]/g, '');
             setprice(priceOfitem)
             setrestauranItemtPayload({ ...restauranItemtPayload, [e.target.name]: priceOfitem })
         }
@@ -108,7 +108,7 @@ const Item = ({ restaurantId, setloading }) => {
             setrestauranItemtPayload({ ...restauranItemtPayload, [e.target.name]: e.target.value })
         }
     }
-  
+
     const handleImageUpload = async () => {
         if (selectedFiles) {
             const formData = new FormData();
@@ -164,17 +164,17 @@ const Item = ({ restaurantId, setloading }) => {
     const handleOpenDialog = (item) => {
         setDialogOpen(true);
         setselectedRestaurantItem(item);
-       
-    };
-  const handleEditOpenDialog=(item)=>{                                   // handling edit button of a item 
-    seteditdialogOpen(true)
-    setselectedRestaurantItem(item);
 
-  }
-  const handleEditCloseDialog=()=>{                                      // for close the edit form of the item
-    seteditdialogOpen(false)
-    fetchRestaurantItems()
-  }
+    };
+    const handleEditOpenDialog = (item) => {                                   // handling edit button of a item 
+        seteditdialogOpen(true)
+        setselectedRestaurantItem(item);
+
+    }
+    const handleEditCloseDialog = () => {                                      // for close the edit form of the item
+        seteditdialogOpen(false)
+        fetchRestaurantItems()
+    }
     const handleCloseDialog = () => {
         setDialogOpen(false);
     };
@@ -195,11 +195,11 @@ const Item = ({ restaurantId, setloading }) => {
                     title="Delete Restaurant"
                     content="Are you sure you want to perform this action?"
                 />
-              <EditDialog open={editdialogOpen}
+                <EditDialog open={editdialogOpen}
                     onClose={handleEditCloseDialog}
                     Item={selectedRestaurantItem}
                     setItem={setselectedRestaurantItem}
-              />
+                />
                 <h6 className='fw-bold'>Items</h6>
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={tab}>
@@ -212,56 +212,56 @@ const Item = ({ restaurantId, setloading }) => {
                         <TabPanel value="1">
                             <div className='row'>
                                 <div class={`${editflag ? 'col-xxl-6' : 'col-xxl-12'} mb-3 pl-md-2`}>
-                                <div className='row'>                                        
-                                    <div class="card-body p-0">
-                                        <div class="falcon-data-table">
-                                            <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200" data-options='{"searching":false,"responsive":false,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
-                                                <thead class="bg-200 text-900">
-                                             <tr>
-                                             <th class="py-2 align-middle whitespace-nowrap flex items-center m">Name</th>
-                                             <th class="align-middle sort">Description</th>
-                                             <th class="align-middle sort ">Price</th>
-                                             <th class="align-middle sort text-center">Active</th>
-                                             <th class="no-sort">Actions</th>
-                                             </tr>
-                                           </thead>
+                                    <div className='row'>
+                                        <div class="card-body p-0">
+                                            <div class="falcon-data-table">
+                                                <table class="table table-sm mb-0 table-striped table-dashboard fs--1 data-table border-bottom border-200" data-options='{"searching":false,"responsive":false,"info":false,"lengthChange":false,"sWrapper":"falcon-data-table-wrapper","dom":"<&#39;row mx-1&#39;<&#39;col-sm-12 col-md-6&#39;l><&#39;col-sm-12 col-md-6&#39;f>><&#39;table-responsive&#39;tr><&#39;row no-gutters px-1 py-3 align-items-center justify-content-center&#39;<&#39;col-auto&#39;p>>","language":{"paginate":{"next":"<span class=\"fas fa-chevron-right\"></span>","previous":"<span class=\"fas fa-chevron-left\"></span>"}}}'>
+                                                    <thead class="bg-200 text-900">
+                                                        <tr>
+                                                            <th class="py-2 align-middle whitespace-nowrap flex items-center m">Name</th>
+                                                            <th class="align-middle sort">Description</th>
+                                                            <th class="align-middle sort ">Price</th>
+                                                            <th class="align-middle sort text-center">Active</th>
+                                                            <th class="no-sort">Actions</th>
+                                                        </tr>
+                                                    </thead>
 
 
-                                           
-                    <tbody id="restaurants">
-                      {
-                        restaurantItems.map((item) => (
-                          <tr class="btn-reveal-trigger">
-                            <td class="py-2 align-middle whitespace-nowrap flex items-center">
-    <img src={item.image} height={'75px'} width={'75px'} class='mr-3' />
-    <strong>{item.name}</strong>
-</td>
-                            <td class="py-2 align-middle">{item.description}</td>
-                            <td class="py-2 align-middle">{item.price}</td>
-                            <td class="py-2 align-middle text-center fs-0 font-weight-medium">
-                              {item.isActive ? <span class="badge badge-success rounded-pill d-inline">Active</span> :
-                                <span class="badge badge-danger rounded-pill d-inline">Not Active</span>
-                              }</td>
-                             <td class="py-2 align-middle white-space-nowrap">
-                              <div class="dropdown">
-                                <IconButton aria-label="Edit" size="small" onClick={()=>{handleEditOpenDialog(item)}} >
-                                <EditIcon fontSize="small"/>
-                                </IconButton>
-                                <IconButton aria-label="delete" size="small">
-                                    <DeleteIcon className='text-danger' onClick={()=>{handleOpenDialog(item)}} />
-                                </IconButton>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      }
 
-                    </tbody>
-                  </table>
-                  
-                </div>
-              </div>
-                                        
+                                                    <tbody id="restaurants">
+                                                        {
+                                                            restaurantItems.map((item) => (
+                                                                <tr class="btn-reveal-trigger">
+                                                                    <td class="py-2 align-middle whitespace-nowrap flex items-center">
+                                                                        <img src={item.image} height={'75px'} width={'75px'} class='mr-3' />
+                                                                        <strong>{item.name}</strong>
+                                                                    </td>
+                                                                    <td class="py-2 align-middle">{item.description}</td>
+                                                                    <td class="py-2 align-middle">{item.price}</td>
+                                                                    <td class="py-2 align-middle text-center fs-0 font-weight-medium">
+                                                                        {item.isActive ? <span class="badge badge-success rounded-pill d-inline">Active</span> :
+                                                                            <span class="badge badge-danger rounded-pill d-inline">Not Active</span>
+                                                                        }</td>
+                                                                    <td class="py-2 align-middle white-space-nowrap">
+                                                                        <div class="dropdown">
+                                                                            <IconButton aria-label="Edit" size="small" onClick={() => { handleEditOpenDialog(item) }} >
+                                                                                <EditIcon fontSize="small" />
+                                                                            </IconButton>
+                                                                            <IconButton aria-label="delete" size="small">
+                                                                                <DeleteIcon className='text-danger' onClick={() => { handleOpenDialog(item) }} />
+                                                                            </IconButton>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 {editflag ?
@@ -280,7 +280,7 @@ const Item = ({ restaurantId, setloading }) => {
                                                             name='name'
                                                             value={restauranItemtPayload.name}
                                                             fullWidth
-                                                            onChange={(e) => onChangeForm(e,setselectedRestaurantItem)}
+                                                            onChange={(e) => onChangeForm(e, setselectedRestaurantItem)}
                                                             InputProps={{ sx: { borderRadius: 0 } }}
                                                         />
                                                     </Grid>

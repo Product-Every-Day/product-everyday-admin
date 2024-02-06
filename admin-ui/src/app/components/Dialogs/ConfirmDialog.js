@@ -12,7 +12,7 @@ import {
 const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => {
   return (
     <Dialog open={open} onClose={onClose}>
-       <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
@@ -21,7 +21,7 @@ const ConfirmDialog = ({ open, onClose, onConfirm, title, content }) => {
         <Button onClick={onConfirm} color="primary">
           Confirm
         </Button>
-      </DialogActions> 
+      </DialogActions>
     </Dialog>
   );
 };
