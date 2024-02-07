@@ -7,9 +7,6 @@ const {cloudinaryUploadImg,cloudinaryDeleteImg} = require('../utils/cloudinary')
 const upload = async (req, res) => {
  
     try {
-        if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ success: false, message: 'No files uploaded.' });
-          }
         const url_list = []
         console.log(req.body);
         console.log(req.files)

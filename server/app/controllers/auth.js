@@ -62,7 +62,7 @@ const login = async (req, res) => {
                 role: user.role,
                 active: user.active,
                 verified: user.verified,
-                avatar:user.avatar
+                avatar: user.avatar
             }
         }
 
@@ -79,7 +79,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        const { email, firstName, lastName, password ,role} = req.body;
+        const { email, firstName, lastName, password } = req.body;
 
         if (!email) {
             return res.status(400).send(

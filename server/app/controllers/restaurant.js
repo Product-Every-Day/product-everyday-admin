@@ -4,7 +4,6 @@ const { successResponse, errorResponse } = require('../core/response');
 const logger = require('../core/logger');
 
 const create = async (req, res) => {
-    
     try {
         const user = req.auth.email
         const name = req.body.name;
