@@ -1,8 +1,4 @@
-import React, { useState ,useEffect} from 'react'
-import {addCategoryList} from '../../redux/actions/categoryListDataActions'
-import {useDispatch} from 'react-redux'
-import { post, get, remove } from '../../services/Common';
-import { BACKEND_URL } from '../../core/constants';
+import React, { useState } from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -29,11 +25,7 @@ ChartJS.register(
     Legend,
     ArcElement,
     ...registerables,
-
-    
 )
-
-
 const Dashboard = () => {
     const noofusers = {
         labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN'],
@@ -58,35 +50,7 @@ const Dashboard = () => {
             ],
             borderWidth: 4
         }]
-
-
-
     }
-
-    const dispatch=useDispatch();
-
-    useEffect(() => {
-        fetchAllCategories()
-      }, [])
-    
-      const fetchAllCategories = async (sortOrder = false, page = 1, limit = 10) => {
-        const url = BACKEND_URL + '/category'
-        const params = {
-          sortOrder: sortOrder,
-          page: page,
-          limit: limit
-        }
-    
-        const data = await get(url, params)
-        
-        if (data && data?.success === true) {
-          console.log(data);  
-          dispatch(addCategoryList(data))
-          
-      } 
-    }
-     
-    
     return (
         <ContentBox>
             <div class="row">
