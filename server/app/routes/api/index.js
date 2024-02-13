@@ -12,8 +12,6 @@ const restaurantRoutes = require('./restaurant');
 const restaurantItemRoutes = require('./restaurantItem');
 const uploadRoutes = require('./upload');
 const brandRoutes = require('./brand');
-const orderRoutes = require('./order');
-const cartRoutes = require('./cart');
 
 // auth routes
 router.use('/auth', authRoutes);
@@ -50,11 +48,5 @@ router.use('/restaurantItem', restaurantItemRoutes);
 
 // upload routes
 router.use('/upload', uploadRoutes);
-
-// order routes
-router.use('/order', orderRoutes);
-
-// cart routes
-router.use('/cart', cartRoutes);
 
 module.exports = router;
