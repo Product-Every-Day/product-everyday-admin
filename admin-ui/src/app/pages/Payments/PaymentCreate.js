@@ -28,6 +28,10 @@ const PaymentCreate = () => {
     const [loading, setloading] = useState(false)
     const dispatch = useDispatch()
 
+    const checkoutHandler = async () => {
+        console.log(window);
+    }
+
     async function displayRazorpay() {
         setloading(true)
         console.log(RAZORPAY_API_KEY)
@@ -37,6 +41,7 @@ const PaymentCreate = () => {
             alert('Razorpay SDK failed to load. Are you online?')
             return
         }
+        console.log(window);
 
         //Creating RazorPay Order
         const config = {

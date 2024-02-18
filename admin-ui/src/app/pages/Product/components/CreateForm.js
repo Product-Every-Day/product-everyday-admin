@@ -17,6 +17,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useSelector } from 'react-redux';
+
 
 const createPayload = {
     "name": "",
@@ -34,6 +36,8 @@ const CreateForm = ({ setloading, fetchAllProducts }) => {
     const [productPayload, setproductPayload] = useState(createPayload)
     const [selectedFiles, setSelectedFiles] = useState(null);
     const [age, setAge] = React.useState('');
+    const categoryList = useSelector((state) => state.categoryData)
+    console.log(categoryList,'in product create');
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -152,7 +156,7 @@ const CreateForm = ({ setloading, fetchAllProducts }) => {
                 </Grid>
                 <Grid item xs={4}>
                     <FormControl sx={{ minWidth: 120 }} size="small">
-                        <InputLabel id="demo-select-small-label">Catgory</InputLabel>
+                        <InputLabel id="demo-select-small-label">Category</InputLabel>
                         <Select
                             labelId="demo-select-small-label"
                             id="demo-select-small"

@@ -18,7 +18,7 @@ const PaymentCreate = Loadable(lazy(() => import('../pages/Payments/PaymentCreat
 const Product = Loadable(lazy(() => import('../pages/Product/Product')));
 const Category = Loadable(lazy(() => import('../pages/Category/Category')));
 const Brand = Loadable(lazy(() => import('../pages/Brand/Brand')));
-const Test = Loadable(lazy(() => import('../pages/DummyTest/DummyTest')));
+const Cart = Loadable(lazy(() => import('../pages/Cart/Cart')));
 
 const Logout = (props) => {
     const { children } = props
@@ -56,6 +56,7 @@ const routes = [
     { path: '/session/403', element: <AccessForbidden /> },
     { path: '/session/signin', element: <Login /> },
     { path: '/logout', element: <Logout><Login /></Logout> },
+    { path: '/cart', element: <AppLayout><Cart /></AppLayout>},
     { path: '*', element: <AppLayout><NotFound /></AppLayout> }
 ];
 

@@ -92,6 +92,17 @@ export const put = async (url, payload) => {
     return data
 }
 
+export const patch = async (url, payload) => {
+    const headersData = generateGlobalHeader()
+    console.log(url)
+    const body = payload
+    const response = await axios.patch(url, body, headersData)
+        .then(res => { return res })
+        .catch(err => { return err });
+    const data = response?.data || []
+    return data
+}
+
 export const uploadImage = async (url, formData) => {
     const headersData = generateGlobalHeader()
     const response = await axios.post(url, formData, headersData)

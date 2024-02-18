@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -15,6 +15,11 @@ import {
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import { Grid } from '@mui/material';
 import { ContentBox } from '../../styles/AppStyles';
+import { BACKEND_URL } from '../../core/constants';
+import { useDispatch } from 'react-redux';
+import { post, get, remove } from '../../services/Common';
+import { setCart, getCart } from '../../redux/actions/cartActions';
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -51,6 +56,19 @@ const Dashboard = () => {
             borderWidth: 4
         }]
     }
+    const dispatch = useDispatch()
+    useEffect(() => {
+        setCartState() //as soon as dashboard gets loaded set cart in redux
+    }, [])
+    const setCartState = async () => {
+        console.log('in settingsss');
+        // const url = BACKEND_URL + '/cart/nehapriya@ped.com'
+
+        // const data = await get(url, [])
+        // console.log(data);
+        dispatch(getCart())
+    }
+    
     return (
         <ContentBox>
             <div class="row">

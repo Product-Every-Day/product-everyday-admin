@@ -10,6 +10,8 @@ import EditForm from './components/EditForm';
 import ConfirmDialog from '../../components/Dialogs/ConfirmDialog';
 import { Pagination } from 'antd';
 import { Input, Space } from 'antd';
+import BuyForm from './components/BuyForm';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
@@ -25,6 +27,9 @@ const Product = () => {
   const [current, setCurrent] = useState(3);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [bulkaction, setbulkaction] = useState(null)
+
+  const categoryList = useSelector((state) => state.categoryStateData.categoryData.data)
+  console.log(categoryList,'in product');
 
 
   useEffect(() => {
@@ -129,6 +134,11 @@ const Product = () => {
 
   const handleEdit = (product) => {
     settoggleNew("edit")
+    setselectedProduct(product)
+    resetStates()
+  }
+  const handleBuy = (product) => {
+    settoggleNew("buy")
     setselectedProduct(product)
     resetStates()
   }
@@ -243,6 +253,14 @@ const Product = () => {
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close" onClick={() => settoggleNew("list")}></button>
               </div>
               <EditForm product={selectedProduct} setloading={setloading} fetchAllProducts={fetchAllProducts} />
+            </div> :
+            toggleNew === "buy" ?
+            <div>
+              <div className="d-flex flex-row justify-content-between mb-4">
+                <h5 class="modal-title fw-bolder" id="exampleModalLabel">Buy Product</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close" onClick={() => settoggleNew("list")}></button>
+              </div>
+              <BuyForm product={selectedProduct} setloading={setloading} fetchAllProducts={fetchAllProducts} />
             </div>
             :
             <div class="card mb-3">
@@ -345,6 +363,7 @@ const Product = () => {
                                 <ul class="dropdown-menu" aria-labelledby={`dropdownbtn_${index}`}>
                                   <li><a class="dropdown-item" href="#" onClick={() => handleEdit(item)}>Edit</a></li>
                                   <li><a class="dropdown-item" href="#" onClick={() => handleOpenDialog(item)}>Delete</a></li>
+                                  <li><a class="dropdown-item" href="#" onClick={() => handleBuy(item)}>Buy</a></li>
                                 </ul>
                               </div>
                             </td>
